@@ -21,11 +21,11 @@ This implementation uses an Amazon S3 bucket as artifact store and an Amazon RDS
 
 ![](media/architecture-mlflow.png)
 
-You can deploy the example stack in ```us-east-1```, ```us-west-1```, and ```eu-west-1``` by following these steps:
+You can deploy the example stack in **us-east-1**, **us-west-1**, and **eu-west-1** by following these steps:
 1. Use the following button to launch the AWS CloudFormation stack. [![button](media/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation#/stacks/new?stackName=mlflow-build&templateURL=https://aws-mlops-workshop.s3-eu-west-1.amazonaws.com/content/mlflow-stack/codebuild-stack.yaml)
-2. Click ```Next``` and leave all options as default, until you reach the final screen
-3. Select ```I acknowledge that AWS CloudFormation might create IAM resources.```
-4. Choose ```Create```.
+2. Click **Next** and leave all options as default, until you reach the final screen
+3. Select **I acknowledge that AWS CloudFormation might create IAM resources.**
+4. Choose **Create**.
 
 You can view the CDK stack details in ```stack/deployment_stack.py```. 
 The stack will take a few minutes to launch the MLflow server on AWS Fargate, with an S3 bucket and a MySQL database on RDS. 
@@ -33,7 +33,7 @@ You can then use the load balancer URI present in the stack outputs to access th
 ![](media/load-balancer.png)
 ![](media/mlflow-ui.png)
 
-In this illustrative example stack, the load balancer is launched on a public subnet and is internet facing.
+**N.B:** In this illustrative example stack, the load balancer is launched on a public subnet and is internet facing.
 For security purposes, you may want to provision an internal load balancer in your VPC private subnets where there is no direct connectivity from the outside world. 
 Here is a blog post explaining how to achieve this: [Access Private applications on AWS Fargate using Amazon API Gateway PrivateLink](https://aws.amazon.com/blogs/compute/access-private-applications-on-aws-fargate-using-amazon-api-gateway-privatelink/)
 
