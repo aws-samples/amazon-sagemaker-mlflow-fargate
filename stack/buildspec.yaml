@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install -g aws-cdk@1.65.0
+      - pip install --upgrade aws-cdk.aws_ecs_patterns==1.65.0
+      - pip install --upgrade aws-cdk.aws_rds==1.65.0
+
+  pre_build:
+    commands:
+      - mkdir stack/deployment
+      - cd stack/deployment
+      - cdk init --language=python
+
+  build:
+    commands:
+      # copy deployment_stack to generate CDK deployment folder
+      - cp ../deployment_stack.py ./deployment
+      - cdk bootstrap aws://${ACCOUNT_ID}/${AWS_REGION}
+      - cdk deploy --parameters ProjectName=${PROJECT_NAME} --require-approval never
