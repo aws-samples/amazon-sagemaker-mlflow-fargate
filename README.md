@@ -53,7 +53,7 @@ Connect to your notebook instance and set the remote tracking URI.
 
 
 ### Running an example lab
-This describes how develop, train, tune and deploy a Random Forest model using Scikit-learn with the [SageMaker Python SDK](https://sagemaker.readthedocs.io/en/stable/frameworks/sklearn/using_sklearn.html).
+This describes how to develop, train, tune and deploy a Random Forest model using Scikit-learn with the [SageMaker Python SDK](https://sagemaker.readthedocs.io/en/stable/frameworks/sklearn/using_sklearn.html).
 We use the [Boston Housing dataset](https://scikit-learn.org/stable/datasets/index.html#boston-dataset), present in [Scikit-Learn](https://scikit-learn.org/stable/index.html.), and log our machine learning runs into MLflow.
 You can find the original lab in the [SageMaker Examples](https://github.com/aws/amazon-sagemaker-examples/tree/fb04396d2e7ceeb135b0b0a516e54c97922ca0d8/sagemaker-python-sdk/scikit_learn_randomforest) repository for more details on using custom Scikit-learn scipts with Amazon SageMaker.
 
