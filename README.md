@@ -31,7 +31,7 @@ You can view the CDK stack details in ```stack/deployment_stack.py```.
 The stack will take a few minutes to launch the MLflow server on AWS Fargate, with an S3 bucket and a MySQL database on RDS. 
 You can then use the load balancer URI present in the stack outputs to access the MLflow UI:
 ![](media/load-balancer.png)
-![](media/mlflow-ui.png)
+![](media/mlflow-interface.png)
 
 **N.B:** In this illustrative example stack, the load balancer is launched on a public subnet and is internet facing.
 For security purposes, you may want to provision an internal load balancer in your VPC private subnets where there is no direct connectivity from the outside world. 
