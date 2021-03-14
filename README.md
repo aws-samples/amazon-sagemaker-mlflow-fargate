@@ -34,8 +34,8 @@ To go through this example, make sure you have the following:
 * This [Github repository](https://github.com/aws-samples/amazon-sagemaker-mlflow-fargate) cloned into your environment to follow the steps
 
 ### Deploying the stack
-You can view the CDK stack details in ```app.py```.
-Execute the following commands to install CDK to make sure you have the right dependencies:
+You can view the CDK stack details in [app.py](https://github.com/aws-samples/amazon-sagemaker-mlflow-fargate/blob/main/app.py).
+Execute the following commands to install CDK and make sure you have the right dependencies:
 
 ```
 python3 -m venv .venv
