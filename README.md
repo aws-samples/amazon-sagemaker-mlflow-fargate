@@ -4,9 +4,7 @@
 
 In this repository we show how to deploy MLflow on AWS Fargate and how to use it during your ML project
 with [Amazon SageMaker](https://aws.amazon.com/sagemaker). You will use Amazon SageMaker to develop, train, tune and
-deploy a Scikit-Learn based ML model (Random Forest) using
-the [Boston House Prices dataset](https://scikit-learn.org/stable/datasets/index.html#boston-dataset) and track
-experiment runs and models with MLflow.
+deploy a Scikit-Learn based ML model (Random Forest) and track experiment runs and models with MLflow.
 
 This implementation shows how to do the following:
 
