@@ -1,0 +1,8 @@
+aws-cdk.core==1.65.0
+aws-cdk.aws_ec2==1.65.0
+aws-cdk.aws_s3==1.65.0
+aws-cdk.aws_ecs==1.65.0
+aws-cdk.aws_rds==1.65.0
+aws-cdk.aws_iam==1.65.0
+aws-cdk.aws_secretsmanager==1.65.0
+aws-cdk.aws_ecs_patterns==1.65.0

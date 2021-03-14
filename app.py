@@ -111,7 +111,7 @@ class DeploymentStack(core.Stack):
         container = task_definition.add_container(
             id='Container',
             image=ecs.ContainerImage.from_asset(
-                directory='../../container',
+                directory='container',
                 repository_name=container_repo_name
             ),
             environment={
@@ -155,3 +155,8 @@ class DeploymentStack(core.Stack):
         # =================== OUTPUTS ======================
         # ==================================================
         core.CfnOutput(scope=self, id='LoadBalancerDNS', value=fargate_service.load_balancer.load_balancer_dns_name)
+
+
+app = core.App()
+DeploymentStack(app, "DeploymentStack")
+app.synth()
