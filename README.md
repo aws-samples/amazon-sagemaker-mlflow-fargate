@@ -19,7 +19,7 @@ This implementation shows how to do the following:
 
 You can set a central MLflow tracking server during your ML project. By using this remote MLflow server, data scientists
 will be able to manage experiments and models in a collaborative manner.
-An MLflow tracking server also has two components for storage: ```a backend store``` and an ```artifact store```. This
+An MLflow tracking server also has two components for storage: a ```backend store``` and an ```artifact store```. This
 implementation uses an Amazon S3 bucket as artifact store and an Amazon RDS instance for MySQL as backend store.
 
 ![](media/architecture-mlflow.png)
@@ -71,8 +71,8 @@ this: [Access Private applications on AWS Fargate using Amazon API Gateway Priva
 
 You now have a remote MLflow tracking server running accessible through
 a [REST API](https://mlflow.org/docs/latest/rest-api.html#rest-api) via
-the [load balancer uri](https://mlflow.org/docs/latest/quickstart.html#quickstart-logging-to-remote-server). You can use
-the MLflow Tracking API to log parameters, metrics, and models when running your machine learning project with Amazon
+the [load balancer uri](https://mlflow.org/docs/latest/quickstart.html#quickstart-logging-to-remote-server). 
+You can use the MLflow Tracking API to log parameters, metrics, and models when running your machine learning project with Amazon
 SageMaker. For this you will need install the MLflow library when running your code on Amazon SageMaker and set the
 remote tracking uri to be your load balancer address.
 
