@@ -1,8 +1,8 @@
 FROM python:3.8.0
 
 RUN pip install \
-    mlflow==1.12.1 \
-    pymysql==0.10.1 \
+    mlflow==1.18.0 \
+    pymysql==1.0.2 \
     boto3 && \
     mkdir /mlflow/
 

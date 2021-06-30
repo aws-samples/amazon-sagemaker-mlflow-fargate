@@ -39,7 +39,7 @@ Execute the following commands to install CDK and make sure you have the right d
 python3 -m venv .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
-npm install -g aws-cdk@1.65.0
+npm install -g aws-cdk@1.110.0
 ```
 
 Once this is installed, you can execute the following commands to deploy the inference service into your account:
