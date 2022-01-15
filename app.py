@@ -9,21 +9,22 @@ from aws_cdk import (
     aws_iam as iam,
     aws_secretsmanager as sm,
     aws_ecs_patterns as ecs_patterns,
-    core
+    App, Stack, CfnParameter, CfnOutput, Aws, RemovalPolicy, Duration
 )
+from constructs import Construct
 
 
-class DeploymentStack(core.Stack):
-    def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
+class DeploymentStack(Stack):
+    def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
         # ==============================
         # ======= CFN PARAMETERS =======
         # ==============================
-        project_name_param = core.CfnParameter(scope=self, id='ProjectName', type='String')
+        project_name_param = CfnParameter(scope=self, id='ProjectName', type='String')
         db_name = 'mlflowdb'
         port = 3306
         username = 'master'
-        bucket_name = f'{project_name_param.value_as_string}-artifacts-{core.Aws.ACCOUNT_ID}'
+        bucket_name = f'{project_name_param.value_as_string}-artifacts-{Aws.ACCOUNT_ID}'
         container_repo_name = 'mlflow-containers'
         cluster_name = 'mlflow'
         service_name = 'mlflow'
@@ -49,8 +50,8 @@ class DeploymentStack(core.Stack):
         # ==================== VPC =========================
         # ==================================================
         public_subnet = ec2.SubnetConfiguration(name='Public', subnet_type=ec2.SubnetType.PUBLIC, cidr_mask=28)
-        private_subnet = ec2.SubnetConfiguration(name='Private', subnet_type=ec2.SubnetType.PRIVATE, cidr_mask=28)
-        isolated_subnet = ec2.SubnetConfiguration(name='DB', subnet_type=ec2.SubnetType.ISOLATED, cidr_mask=28)
+        private_subnet = ec2.SubnetConfiguration(name='Private', subnet_type=ec2.SubnetType.PRIVATE_WITH_NAT, cidr_mask=28)
+        isolated_subnet = ec2.SubnetConfiguration(name='DB', subnet_type=ec2.SubnetType.PRIVATE_ISOLATED, cidr_mask=28)
 
         vpc = ec2.Vpc(
             scope=self,
@@ -69,9 +70,7 @@ class DeploymentStack(core.Stack):
             scope=self,
             id='ARTIFACTBUCKET',
             bucket_name=bucket_name,
-            public_read_access=False,
-            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
-            removal_policy=core.RemovalPolicy.DESTROY
+            public_read_access=False
         )
         # # ==================================================
         # # ================== DATABASE  =====================
@@ -87,13 +86,13 @@ class DeploymentStack(core.Stack):
             database_name=db_name,
             port=port,
             credentials=rds.Credentials.from_username(username=username, password=db_password_secret.secret_value),
-            engine=rds.DatabaseInstanceEngine.mysql(version=rds.MysqlEngineVersion.VER_8_0_19),
+            engine=rds.DatabaseInstanceEngine.mysql(version=rds.MysqlEngineVersion.VER_8_0_26),
             instance_type=ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.SMALL),
             vpc=vpc,
             security_groups=[sg_rds],
-            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.ISOLATED),
+            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_ISOLATED),
             # multi_az=True,
-            removal_policy=core.RemovalPolicy.DESTROY,
+            removal_policy=RemovalPolicy.DESTROY,
             deletion_protection=False
         )
         # ==================================================
@@ -110,10 +109,7 @@ class DeploymentStack(core.Stack):
 
         container = task_definition.add_container(
             id='Container',
-            image=ecs.ContainerImage.from_asset(
-                directory='container',
-                repository_name=container_repo_name
-            ),
+            image=ecs.ContainerImage.from_asset(directory='container'),
             environment={
                 'BUCKET': f's3://{artifact_bucket.bucket_name}',
                 'HOST': database.db_instance_endpoint_address,
@@ -148,15 +144,15 @@ class DeploymentStack(core.Stack):
         scaling.scale_on_cpu_utilization(
             id='AUTOSCALING',
             target_utilization_percent=70,
-            scale_in_cooldown=core.Duration.seconds(60),
-            scale_out_cooldown=core.Duration.seconds(60)
+            scale_in_cooldown=Duration.seconds(60),
+            scale_out_cooldown=Duration.seconds(60)
         )
         # ==================================================
         # =================== OUTPUTS ======================
         # ==================================================
-        core.CfnOutput(scope=self, id='LoadBalancerDNS', value=fargate_service.load_balancer.load_balancer_dns_name)
+        CfnOutput(scope=self, id='LoadBalancerDNS', value=fargate_service.load_balancer.load_balancer_dns_name)
 
 
-app = core.App()
+app = App()
 DeploymentStack(app, "DeploymentStack")
 app.synth()

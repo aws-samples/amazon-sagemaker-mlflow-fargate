@@ -36,10 +36,10 @@ You can view the CDK stack details in [app.py](https://github.com/aws-samples/am
 Execute the following commands to install CDK and make sure you have the right dependencies:
 
 ```
+npm install -g aws-cdk@2.8.0
 python3 -m venv .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
-npm install -g aws-cdk@1.110.0
 ```
 
 Once this is installed, you can execute the following commands to deploy the inference service into your account:
@@ -47,7 +47,6 @@ Once this is installed, you can execute the following commands to deploy the inf
 ```
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account | tr -d '"')
 AWS_REGION=$(aws configure get region)
-
 cdk bootstrap aws://${ACCOUNT_ID}/${AWS_REGION}
 cdk deploy --parameters ProjectName=mlflow --require-approval never
 ```
