@@ -119,7 +119,8 @@ class DeploymentStack(Stack):
             },
             secrets={
                 'PASSWORD': ecs.Secret.from_secrets_manager(db_password_secret)
-            }
+            },
+            logging=ecs.LogDriver.aws_logs(stream_prefix='mlflow')
         )
         port_mapping = ecs.PortMapping(container_port=5000, host_port=5000, protocol=ecs.Protocol.TCP)
         container.add_port_mappings(port_mapping)
