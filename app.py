@@ -78,7 +78,10 @@ class DeploymentStack(Stack):
         # Creates a security group for AWS RDS
         sg_rds = ec2.SecurityGroup(scope=self, id='SGRDS', vpc=vpc, security_group_name='sg_rds')
         # Adds an ingress rule which allows resources in the VPC's CIDR to access the database.
-        sg_rds.add_ingress_rule(peer=ec2.Peer.ipv4('10.0.0.0/24'), connection=ec2.Port.tcp(port))
+        sg_rds.add_ingress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(port)
+        )
 
         database = rds.DatabaseInstance(
             scope=self,
@@ -130,7 +133,8 @@ class DeploymentStack(Stack):
             id='MLFLOW',
             service_name=service_name,
             cluster=cluster,
-            task_definition=task_definition
+            task_definition=task_definition,
+            public_load_balancer=False
         )
 
         # Setup security group
@@ -148,10 +152,27 @@ class DeploymentStack(Stack):
             scale_in_cooldown=Duration.seconds(60),
             scale_out_cooldown=Duration.seconds(60)
         )
+
+        # ==================================================
+        # =================== JUMP HOST ======================
+        # ==================================================
+        jump = ec2.Instance(self, "JumpHost",
+            vpc=vpc,
+            instance_type=ec2.InstanceType.of(ec2.InstanceClass.M5, ec2.InstanceSize.LARGE),
+            machine_image=ec2.AmazonLinuxImage(
+                generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+            ),
+            block_devices=[ec2.BlockDevice(
+                device_name= '/dev/xvda',
+                volume=ec2.BlockDeviceVolume.ebs(50)
+            )]
+        )
+
         # ==================================================
         # =================== OUTPUTS ======================
         # ==================================================
         CfnOutput(scope=self, id='LoadBalancerDNS', value=fargate_service.load_balancer.load_balancer_dns_name)
+        CfnOutput(scope=self, id='JumpHostInstanceID', value=jump.instance_id)
 
 
 app = App()
