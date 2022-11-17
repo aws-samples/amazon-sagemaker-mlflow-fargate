@@ -1,10 +1,15 @@
-FROM python:3.8.0
+FROM --platform=linux/amd64 amazonlinux:2
 
-RUN pip install \
-    mlflow==1.28.0 \
+RUN yum check-update
+RUN yum install -y amazon-linux-extras
+RUN amazon-linux-extras install python3.8
+RUN ln -s /usr/bin/python3.8 /usr/bin/python3
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install \
+    mlflow==2.0.1 \
     pymysql==1.0.2 \
-    boto3 && \
-    mkdir /mlflow/
+    boto3
+RUN mkdir /mlflow/
 
 EXPOSE 5000
 
