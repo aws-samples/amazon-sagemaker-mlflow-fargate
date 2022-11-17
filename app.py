@@ -20,7 +20,7 @@ from aws_cdk import (
 from constructs import Construct
 
 
-class DeploymentStack(Stack):
+class MLFlow(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
         # ==============================
@@ -127,7 +127,6 @@ class DeploymentStack(Stack):
             vpc_subnets=ec2.SubnetSelection(
                 subnet_type=ec2.SubnetType.PRIVATE_ISOLATED
             ),
-            # multi_az=True,
             removal_policy=RemovalPolicy.DESTROY,
             deletion_protection=False,
         )
@@ -140,8 +139,10 @@ class DeploymentStack(Stack):
 
         task_definition = ecs.FargateTaskDefinition(
             scope=self,
-            id="MLflow",
+            id="MLFlow",
             task_role=role,
+            cpu=4*1024,
+            memory_limit_mib=8*1024,
         )
 
         container = task_definition.add_container(
@@ -196,5 +197,5 @@ class DeploymentStack(Stack):
 
 
 app = App()
-DeploymentStack(app, "DeploymentStack")
+MLFlow(app, "MLFlow")
 app.synth()
