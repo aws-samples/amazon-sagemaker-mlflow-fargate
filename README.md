@@ -14,7 +14,6 @@ This implementation shows how to do the following:
 * Deploy an MLflow model into a SageMaker endpoint
 
 ### MLflow tracking server
-
 You can set a central MLflow tracking server during your ML project. By using this remote MLflow server, data scientists
 will be able to manage experiments and models in a collaborative manner.
 An MLflow tracking server also has two components for storage: a ```backend store``` and an ```artifact store```. This
@@ -23,6 +22,7 @@ implementation uses an Amazon S3 bucket as artifact store and an Amazon RDS inst
 ![](media/architecture-mlflow.png)
 
 ### Prerequisites
+
 We will use [the AWS CDK](https://cdkworkshop.com/) to deploy the MLflow server.
 
 To go through this example, make sure you have the following:
@@ -32,11 +32,12 @@ To go through this example, make sure you have the following:
 * This [Github repository](https://github.com/aws-samples/amazon-sagemaker-mlflow-fargate) cloned into your environment to follow the steps
 
 ### Deploying the stack
+
 You can view the CDK stack details in [app.py](https://github.com/aws-samples/amazon-sagemaker-mlflow-fargate/blob/main/app.py).
 Execute the following commands to install CDK and make sure you have the right dependencies:
 
 ```
-npm install -g aws-cdk@2.8.0
+npm install -g aws-cdk@2.51.1
 python3 -m venv .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
