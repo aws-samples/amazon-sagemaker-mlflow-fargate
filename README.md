@@ -100,13 +100,6 @@ Follow the step-by-step guide by executing the notebooks in the following folder
 * lab/2_track_experiments_hpo.ipynb
 * lab/3_deploy_model.ipynb
 
-### Current limitation on user access control
-
-The [open source version](https://github.com/mlflow/mlflow) of MLflow does not currently provide user access control
-features in case you have multiple tenants on your MLflow server. This means any user having access to the MLflow server
-can modify experiments, model versions, and stages. This can be a challenge for enterprises in regulated industries that
-need to keep strong model governance for audit purposes.
-
 ### Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
