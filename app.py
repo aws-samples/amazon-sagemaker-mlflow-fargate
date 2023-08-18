@@ -117,7 +117,7 @@ class MLflowStack(Stack):
                 username=username, password=db_password_secret.secret_value
             ),
             engine=rds.DatabaseInstanceEngine.mysql(
-                version=rds.MysqlEngineVersion.VER_8_0_26
+                version=rds.MysqlEngineVersion.VER_8_0_34
             ),
             instance_type=ec2.InstanceType.of(
                 ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.SMALL
