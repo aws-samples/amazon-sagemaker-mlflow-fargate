@@ -1,7 +1,9 @@
-FROM python:3.10.12
+FROM --platform=linux/amd64 python:3.10.12
+
+RUN pip install -U pip
 
 RUN pip install \
-    mlflow==2.6.0 \
+    mlflow>=2.7.1 \
     pymysql==1.0.2 \
     boto3 && \
     mkdir /mlflow/
