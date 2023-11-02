@@ -16,7 +16,6 @@ from aws_cdk import (
     Aws,
     RemovalPolicy,
     Duration,
-    DefaultStackSynthesizer,
 )
 from constructs import Construct
 
